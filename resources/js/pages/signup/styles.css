@@ -1,0 +1,56 @@
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.input-file {
+  display: inline-block;
+
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.input-file input[type="file"] {
+  display: none;
+}
+
+.input-file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF; 
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-file-label:hover {
+  background-color: #0056b3;
+}
+
+input, button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.institutionPhoto{
+    display: flex;
+    flex-direction: column;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
