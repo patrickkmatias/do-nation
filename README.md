@@ -6,12 +6,12 @@ O Do Nation é uma plataforma digital inovadora que visa conectar doadores, volu
 Tendo em vista a proposta da Segunda Etapa do Projeto Integrador do 1º Semestre de 2025, escolhemos como prova de conceito o caminho da Entidade Social na plataforma, nosso principal público e mais importante tipo de usuário.
 
 # Participantes
-ALICE ABREU RUBIM DIAS
-DANIEL BENELLI MOURO
-GIOVANNA DE CARVALHO SAUD
-JOAQUIM AMORIM NUNES JUNIOR
-LIVIAN DE SOUSA SILVA
-PATRICK MATIAS DA SILVA
+- ALICE ABREU RUBIM DIAS
+- DANIEL BENELLI MOURO
+- GIOVANNA DE CARVALHO SAUD
+- JOAQUIM AMORIM NUNES JUNIOR
+- LIVIAN DE SOUSA SILVA
+- PATRICK MATIAS DA SILVA
 
 # Tecnologias escolhidas
 - Frontend: React + Vite
