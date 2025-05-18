@@ -101,8 +101,7 @@ export default function Signup({}: SignupPageProps) {
     post(route('register'), {
       onFinish: () => reset('password', 'password_confirmation'),
     });
-    //alert('Cadastro efetuado com sucesso!');
-    //history.go(-2);
+    alert('Cadastro efetuado com sucesso!');
   };
 
   return (
