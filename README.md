@@ -32,5 +32,5 @@ Além disso, para replicar localmente o ambiente, após instalar tudo o que foi 
 
 Caso necessite, rode (php artisan) e será possível visualizar comandos úteis do laravel.7
 
-Para gerar o arquivo do banco de dados, será necessário criar um arquivo vazio no caminho /database com o nome de database.sqlite (caminho final: database/database.sqlite) e rodar as migrações do Eloquent com (php artisan migrate).
+Para gerar o arquivo do banco de dados, será necessário criar um arquivo vazio no caminho /database com o nome de database.sqlite (caminho final: database/database.sqlite) e rodar as migrações do Eloquent com (php artisan migrate). Para gerar o token, rode o comando (php artisan key:generate).
 
