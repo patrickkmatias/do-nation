@@ -19,6 +19,7 @@ export default function Signup({}: SignupPageProps) {
     cnpj: '',
     inscricaoEstadual: '',
     dataAbertura: '',
+    description: '',
   });
 
   const [progress, setProgress] = useState(0);
@@ -60,6 +61,10 @@ export default function Signup({}: SignupPageProps) {
     }));
   };
 
+  const cancelRegister = () => {
+    history.back();
+  }
+
   const analyzeCNPJ = () => {
     setProgress(0);
     const interval = setInterval(() => {
@@ -96,6 +101,8 @@ export default function Signup({}: SignupPageProps) {
     post(route('register'), {
       onFinish: () => reset('password', 'password_confirmation'),
     });
+    //alert('Cadastro efetuado com sucesso!');
+    //history.go(-2);
   };
 
   return (
@@ -164,7 +171,17 @@ export default function Signup({}: SignupPageProps) {
                 />
               </div>
 
-              <div className="md:col-span-2 flex justify-start">
+               <div className="flex flex-col justify-start">
+                <button
+                  type="button"
+                  onClick={cancelRegister}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                >
+                  Voltar
+                </button>
+              </div>
+
+              <div className="flex flex-col justify-start">
                 <button
                   type="button"
                   onClick={analyzeCNPJ}
@@ -190,9 +207,9 @@ export default function Signup({}: SignupPageProps) {
           <>
             <h1 className="text-2xl font-bold mb-6">Cadastro - Informações Adicionais e Conta</h1>
 
-            <form onSubmit={submit} className="space-y-8 max-w-xl" encType="multipart/form-data">
+            <form onSubmit={submit} className="space-y-8 max-w-xl grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl" encType="multipart/form-data">
 
-              <div className="mb-6">
+              <div className="mb-6 col-span-2">
                 <h3 className="font-semibold mb-2">Defina uma foto de perfil</h3>
                 <label
                   htmlFor="file-profile"
@@ -209,7 +226,7 @@ export default function Signup({}: SignupPageProps) {
                 {fileProfile && <p className="mt-1 text-gray-700">Arquivo selecionado: {fileProfile.name}</p>}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 col-span-2">
                 <h3 className="font-semibold mb-2">Insira documentos que comprovem a existência e seriedade da entidade social</h3>
                 <label
                   htmlFor="file-documents"
@@ -226,7 +243,7 @@ export default function Signup({}: SignupPageProps) {
                 {fileDocuments && <p className="mt-1 text-gray-700">Arquivo selecionado: {fileDocuments.name}</p>}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-6 col-span-2">
                 <h3 className="font-semibold mb-2">Faça uma breve descrição sobre a instituição</h3>
                 <textarea
                   value={description}
@@ -236,7 +253,7 @@ export default function Signup({}: SignupPageProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 col-span-2 md:grid-cols-1 gap-6">
                 <div className="flex flex-col">
                   <Label htmlFor="email" className="mb-1">Email</Label>
                   <Input
@@ -253,48 +270,68 @@ export default function Signup({}: SignupPageProps) {
                   <InputError message={errors.email} />
                 </div>
 
-                <div className="flex flex-col">
-                  <Label htmlFor="password" className="mb-1">Senha</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    tabIndex={3}
-                    autoComplete="new-password"
-                    value={data.password}
-                    onChange={(e) => setData('password', e.target.value)}
-                    disabled={processing}
-                    placeholder="Senha"
-                  />
-                  <InputError message={errors.password} />
-                </div>
+                <div className='flex flex-row gap-6'>
+                  <div className="flex flex-col w-1/2">
+                    <Label htmlFor="password" className="mb-1">Senha</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      required
+                      tabIndex={3}
+                      autoComplete="new-password"
+                      value={data.password}
+                      onChange={(e) => setData('password', e.target.value)}
+                      disabled={processing}
+                      placeholder="Senha"
+                    />
+                    <InputError message={errors.password} />
+                  </div>
 
-                <div className="flex flex-col">
-                  <Label htmlFor="password_confirmation" className="mb-1">Confirme a senha</Label>
-                  <Input
-                    id="password_confirmation"
-                    type="password"
-                    required
-                    tabIndex={4}
-                    autoComplete="new-password"
-                    value={data.password_confirmation}
-                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                  <div className="flex flex-col w-1/2">
+                    <Label htmlFor="password_confirmation" className="mb-1">Confirme a senha</Label>
+                    <Input
+                      id="password_confirmation"
+                      type="password"
+                      required
+                      tabIndex={4}
+                      autoComplete="new-password"
+                      value={data.password_confirmation}
+                      onChange={(e) => setData('password_confirmation', e.target.value)}
+                      disabled={processing}
+                      placeholder="Confirme a senha"
+                    />
+                    <InputError message={errors.password_confirmation} />
+                  </div>
+                </div>
+                
+              </div>
+
+              <div className="flex flex-row col-span-2 gap-4">
+                <div className="flex flex-col w-full">
+                  <Button
+                    type="button"
+                    onClick={cancelRegister}
+                    className="mt-6 w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                  >
+                    Cancelar Cadastro
+                  </Button>
+                </div>
+                
+                <div className="flex flex-col w-full">
+                  
+                  <Button
+                    type="submit"
+                    className="mt-6 w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+                    tabIndex={5}
                     disabled={processing}
-                    placeholder="Confirme a senha"
-                  />
-                  <InputError message={errors.password_confirmation} />
+                  >
+                    {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2 inline-block" />}
+                    Cadastrar
+                  </Button>
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                className="mt-6 w-full"
-                tabIndex={5}
-                disabled={processing}
-              >
-                {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2 inline-block" />}
-                Cadastrar
-              </Button>
+              
             </form>
           </>
         )}
