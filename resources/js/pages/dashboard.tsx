@@ -27,6 +27,12 @@ export default function Dashboard() {
         { id: 2, title: 'Campanha de Arrecadação de Roupas', date: '30/05/2025' },
     ]);
 
+    const formatDateBR = (dateString: string) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('pt-BR');
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -38,10 +44,10 @@ export default function Dashboard() {
                         <p><strong>Nome Fantasia:</strong> {user?.nomeFantasia}</p>
                         <p><strong>CNPJ:</strong> {user?.cnpj}</p>
                         <p><strong>Inscrição Estadual:</strong> {user?.inscricaoEstadual}</p>
-                        <p><strong>Data de Abertura:</strong> {user?.dataAbertura}</p>
+                        <p><strong>Data de Abertura:</strong> {formatDateBR(user?.dataAbertura)}</p>
                     </div>
                     <button
-                        onClick={() => alert('Atualizar Dados')}
+                        onClick={() => router.visit('/profile/edit')}
                         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
                     >
                         Atualizar Dados
