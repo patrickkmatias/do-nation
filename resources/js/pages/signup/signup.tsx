@@ -13,15 +13,6 @@ type SignupPageProps = {
 };
 
 export default function Signup({}: SignupPageProps) {
-  const [step1Form, setStep1Form] = useState({
-    razaoSocial: '',
-    nomeFantasia: '',
-    cnpj: '',
-    inscricaoEstadual: '',
-    dataAbertura: '',
-    description: '',
-  });
-
   const [progress, setProgress] = useState(0);
 
   const [step, setStep] = useState(1);
@@ -55,10 +46,7 @@ export default function Signup({}: SignupPageProps) {
         .slice(0, 18);
     }
 
-    setStep1Form((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
+    setData(name as keyof typeof data, newValue);
   };
 
   const cancelRegister = () => {
@@ -92,11 +80,11 @@ export default function Signup({}: SignupPageProps) {
   const submit: React.FormEventHandler = (e) => {
     e.preventDefault();
 
-    setData('razaoSocial', step1Form.razaoSocial);
-    setData('nomeFantasia', step1Form.nomeFantasia);
-    setData('cnpj', step1Form.cnpj);
-    setData('inscricaoEstadual', step1Form.inscricaoEstadual);
-    setData('dataAbertura', step1Form.dataAbertura);
+    setData('razaoSocial', data.razaoSocial);
+    setData('nomeFantasia', data.nomeFantasia);
+    setData('cnpj', data.cnpj);
+    setData('inscricaoEstadual', data.inscricaoEstadual);
+    setData('dataAbertura', data.dataAbertura);
 
     post(route('register'), {
       onFinish: () => reset('password', 'password_confirmation'),
@@ -119,7 +107,7 @@ export default function Signup({}: SignupPageProps) {
                 <input
                   id="razaoSocial"
                   name="razaoSocial"
-                  value={step1Form.razaoSocial}
+                  value={data.razaoSocial}
                   onChange={handleChangeStep1}
                   className="border rounded p-2 w-full"
                 />
@@ -130,7 +118,7 @@ export default function Signup({}: SignupPageProps) {
                 <input
                   id="nomeFantasia"
                   name="nomeFantasia"
-                  value={step1Form.nomeFantasia}
+                  value={data.nomeFantasia}
                   onChange={handleChangeStep1}
                   className="border rounded p-2 w-full"
                 />
@@ -141,7 +129,7 @@ export default function Signup({}: SignupPageProps) {
                 <input
                   id="cnpj"
                   name="cnpj"
-                  value={step1Form.cnpj}
+                  value={data.cnpj}
                   onChange={handleChangeStep1}
                   className="border rounded p-2 w-full"
                 />
@@ -152,7 +140,7 @@ export default function Signup({}: SignupPageProps) {
                 <input
                   id="inscricaoEstadual"
                   name="inscricaoEstadual"
-                  value={step1Form.inscricaoEstadual}
+                  value={data.inscricaoEstadual}
                   onChange={handleChangeStep1}
                   className="border rounded p-2 w-full"
                 />
@@ -164,7 +152,7 @@ export default function Signup({}: SignupPageProps) {
                   id="dataAbertura"
                   type="date"
                   name="dataAbertura"
-                  value={step1Form.dataAbertura}
+                  value={data.dataAbertura}
                   onChange={handleChangeStep1}
                   className="border rounded p-2 w-full"
                 />
