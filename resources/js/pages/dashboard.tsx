@@ -1,10 +1,7 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { router } from '@inertiajs/react';
-
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,39 +28,46 @@ export default function Dashboard() {
         if (!dateString) return '';
         const date = new Date(dateString);
         return date.toLocaleDateString('pt-BR');
-    }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[200px] overflow-hidden rounded-xl border p-4">
+                <section className="rounded border p-4">
                     <h2 className="text-xl font-bold">Dados Cadastrais</h2>
-                    <div className="mt-4">
-                        <p><strong>Razão Social:</strong> {user?.razaoSocial}</p>
-                        <p><strong>Nome Fantasia:</strong> {user?.nomeFantasia}</p>
-                        <p><strong>CNPJ:</strong> {user?.cnpj}</p>
-                        <p><strong>Inscrição Estadual:</strong> {user?.inscricaoEstadual}</p>
-                        <p><strong>Data de Abertura:</strong> {formatDateBR(user?.dataAbertura)}</p>
+                    <div className="mt-4 space-y-1">
+                        <p>
+                            <strong>Razão Social:</strong> {user.nome_instituicao}
+                        </p>
+                        <p>
+                            <strong>CNPJ:</strong> {user.cnpj_cpf}
+                        </p>
+                        <p>
+                            <strong>Inscrição Estadual:</strong> {user.ie_rg}
+                        </p>
+                        <p>
+                            <strong>Data de Abertura:</strong> {formatDateBR(user.data_abertura)}
+                        </p>
+                        {/* … outros campos opcionais … */}
                     </div>
-                    <button
-                        onClick={() => router.visit('/profile/edit')}
-                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                    >
+                    <button onClick={() => router.visit('/profile/edit')} className="mt-4 rounded bg-blue-500 px-4 py-2 text-white">
                         Atualizar Dados
                     </button>
-                </div>
+                </section>
 
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative overflow-hidden rounded-xl border p-4">
                     <h2 className="text-xl font-bold">Doadores e Solicitações</h2>
-                    <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3">
-                        {donors.map(donor => (
-                            <div key={donor.id} className="p-4 border rounded-lg shadow-sm">
-                                <p><strong>Nome:</strong> {donor.name}</p>
-                                <p><strong>Solicitação de Visita:</strong> {donor.visitRequest}</p>
-                                <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
-                                    Confirmar Visita
-                                </button>
+                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {donors.map((donor) => (
+                            <div key={donor.id} className="rounded-lg border p-4 shadow-sm">
+                                <p>
+                                    <strong>Nome:</strong> {donor.name}
+                                </p>
+                                <p>
+                                    <strong>Solicitação de Visita:</strong> {donor.visitRequest}
+                                </p>
+                                <button className="mt-2 rounded bg-green-500 px-4 py-2 text-white">Confirmar Visita</button>
                             </div>
                         ))}
                     </div>
@@ -72,7 +76,7 @@ export default function Dashboard() {
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative overflow-hidden rounded-xl border p-4">
                     <h2 className="text-xl font-bold">Notícias e Eventos</h2>
                     <div className="mt-4">
-                        {news.map(item => (
+                        {news.map((item) => (
                             <div key={item.id} className="border-b py-3">
                                 <p className="font-semibold">{item.title}</p>
                                 <p className="text-sm text-gray-600">Data: {item.date}</p>
@@ -82,10 +86,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="mt-6 flex gap-4">
-                    <button
-                        onClick={() => router.post('/logout')}
-                        className="bg-red-500 text-white px-4 py-2 rounded"
-                    >
+                    <button onClick={() => router.post('/logout')} className="rounded bg-red-500 px-4 py-2 text-white">
                         Sair
                     </button>
                 </div>
