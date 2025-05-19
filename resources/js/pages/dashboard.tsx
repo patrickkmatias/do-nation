@@ -22,7 +22,6 @@ export default function Dashboard() {
       ie_rg?: string;
       observacoes?: string;
       doacao_preferencia?: string;
-      data_abertura?: string;
       profile_photo_path?: string;
     };
   };
@@ -56,7 +55,6 @@ export default function Dashboard() {
             
             <p><strong>CNPJ:</strong> {user.cnpj_cpf || '—'}</p>
             <p><strong>Inscrição Estadual:</strong> {user.ie_rg || '—'}</p>
-            <p><strong>Data de Abertura:</strong> {formatDateBR(user.data_abertura)}</p>
             <p><strong>Observações:</strong> {user.observacoes || '—'}</p>
           </div>
           <button
