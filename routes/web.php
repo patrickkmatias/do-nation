@@ -22,7 +22,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        $user = Auth::user()->load('receptor');
+        return Inertia::render('dashboard', [
+            // Você pode colocar em 'auth.user' ou num prop própria
+            'user' => [
+                'id'                => $user->id,
+                'email'             => $user->email,
+                'is_receptor'       => $user->is_receptor,
+                // campos diretos do receptor:
+                'nome_instituicao'  => $user->receptor->nome_instituicao ?? null,
+                'logradouro'        => $user->receptor->logradouro ?? null,
+                'cep'               => $user->receptor->cep ?? null,
+                'bairro'            => $user->receptor->bairro ?? null,
+                'cidade'            => $user->receptor->cidade ?? null,
+                'estado'            => $user->receptor->estado ?? null,
+                'cnpj_cpf'          => $user->receptor->cnpj_cpf ?? null,
+                'ie_rg'             => $user->receptor->ie_rg ?? null,
+                'observacoes'       => $user->receptor->observacoes ?? null,
+                'doacao_preferencia'=> $user->receptor->doacao_preferencia ?? null,
+                'data_abertura'     => $user->receptor->data_abertura ?? null,
+                'profile_photo_path'=> $user->profile_photo_path,
+            ],
+        ]);
     })->name('dashboard');
 });
 
