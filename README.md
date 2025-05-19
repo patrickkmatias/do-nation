@@ -42,19 +42,43 @@ Após realizar o login:
 - Backend: Laravel
 - Banco de Dados: sqlite3
 
-# Como rodar a aplicação?
+# Configuração de ambiente
 
-A aplicação foi estruturada com auxilio do Laravel, portanto é necessário instalar o Node.js, PHP e preparar o laravel, conforme os materiais de apoio:
+1. Instale as linguagens utilizadas pela aplicação:
 
-https://laravel.com
+- PHP e Composer (utilizando Windows, em PowerShell; demais SOs [verificar docs](https://laravel.com/docs/11.x/installation#installing-php).):
+```pwsh
+# Rodar como administrador...
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.4'))
+```
 
-https://nodejs.org/pt
+- Node.js: https://nodejs.org/pt/download
 
-https://www.php.net/downloads.php
+- SQLite: https://www.sqlite.org/download.html
 
-Além disso, para replicar localmente o ambiente, após instalar tudo o que foi informado acima, será necessário clonar este repositório (git clone [link-do-repo]) e instalar as dependências com o comando (npm i && composer i). Após isso, execute o servidor de desenvolvimento utilizando (php artisan serve) e rode o frontend utilizando (npm run dev).
+2. Clone o repositório e instale as dependências:
+``` sh
+git clone https://github.com/patrickkmatias/do-nation && cd do-nation && npm i && composer i
+```
 
-Caso necessite, rode (php artisan) e será possível visualizar comandos úteis do laravel.7
+3. Copie o arquivo `.env.example` como `.env`
+```sh
+cp .env.example .env
+```
 
-Para gerar o arquivo do banco de dados, será necessário criar um arquivo vazio no caminho /database com o nome de database.sqlite (caminho final: database/database.sqlite) e rodar as migrações do Eloquent com (php artisan migrate). Para gerar o token, rode o comando (php artisan key:generate).
+4. Laravel exige `APP_KEY` populado para execução. Gere uma chave de aplicação com `key:generate`.
+```sh
+php artisan key:generate 
+```
+
+5. Crie um banco de dados .sqlite vazio no caminho `database/database.sqlite`
+```sh
+touch database/database.sqlite
+```
+
+6. Execute as migrações do projeto com `migrate`.
+
+```sh
+php artisan migrate
+```
 
