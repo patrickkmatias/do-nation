@@ -3,7 +3,31 @@
 
 O Do Nation é uma plataforma digital inovadora que visa conectar doadores, voluntários e instituições de assistência social, facilitando a mobilização social em tempos de crise e no dia a dia. 
 
-Tendo em vista a proposta da Segunda Etapa do Projeto Integrador do 1º Semestre de 2025, escolhemos como prova de conceito o caminho da Entidade Social na plataforma, nosso principal público e mais importante tipo de usuário.
+Tendo em vista a proposta da Segunda Etapa do Projeto Integrador do 1º Semestre de 2025, escolhemos como prova de conceito o caminho da Entidade Social na plataforma. O objetivo da nossa prova de conceito é demonstrar a viabilidade técnica e de experiência de usuário no fluxo de cadastro, análise e interação das entidades sociais na plataforma. Segue abaixo uma descrição da jornada do usuário Entidade Social no Do Nation:
+
+1 - A Entidade Social inicia seu acesso à plataforma por meio de um cadastro.
+
+2 - Após o envio do formulário, é realizada uma análise automática do CNPJ.
+
+3 - Com a aprovação, a entidade pode:
+
+- Incluir fotos, documentos e uma descrição institucional.
+
+Após realizar o login:
+
+4 - É redirecionada para um dashboard contendo:
+
+- Pré-visualização dos dados cadastrais, com opção de edição;
+
+- Um grid com informações de doadores e solicitações de visitas.
+
+- Também estará disponível uma seção para divulgação de notícias, eventos e serviços prestados.
+
+5 - Durante o uso, a entidade pode:
+
+- Retornar à página inicial;
+
+- Encerrar a sessão pelo botão "Sair".
 
 # Participantes
 - ALICE ABREU RUBIM DIAS
