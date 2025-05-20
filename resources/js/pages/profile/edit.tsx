@@ -1,80 +1,108 @@
 import { useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Edit({ user }: { user: any }) {
-    const { data, setData, post, processing, errors } = useForm({
-        razaoSocial: user.razaoSocial || '',
-        nomeFantasia: user.nomeFantasia || '',
-        cnpj: user.cnpj || '',
-        inscricaoEstadual: user.inscricaoEstadual || '',
-        dataAbertura: user.dataAbertura || '',
+    // Form com campos do receptor
+    const { data, setData, put, processing, errors } = useForm({
+        nome_instituicao: user.nome_instituicao ?? '',
+        cnpj_cpf: user.cnpj_cpf ?? '',
+        ie_rg: user.ie_rg ?? '',
+        observacoes: user.observacoes ?? '',
+        doacao_preferencia: user.doacao_preferencia ?? '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/profile/update');
+        put(route('profile.updatereceptor'), {
+            onError: () => console.log(errors),
+            onSuccess: () => router.visit('/dashboard'),
+        });
     };
 
     return (
         <AppLayout>
-            <Head title="Editar Dados" />
+            <Head title="Editar Dados Cadastrais" />
             <form onSubmit={handleSubmit} className="max-w-xl mx-auto mt-8 space-y-4">
                 <h1 className="text-2xl font-bold mb-4">Editar Dados Cadastrais</h1>
 
                 <div>
-                    <label className="block font-semibold">Razão Social</label>
+                    <label htmlFor="nome_instituicao" className="block font-semibold">Razão Social</label>
                     <input
+                        id="nome_instituicao"
+                        name="nome_instituicao"
                         type="text"
-                        value={data.razaoSocial}
-                        onChange={e => setData('razaoSocial', e.target.value)}
+                        value={data.nome_instituicao}
+                        onChange={e => setData('nome_instituicao', e.target.value)}
                         className="w-full border p-2 rounded"
                     />
-                    {errors.razaoSocial && <p className="text-red-500 text-sm">{errors.razaoSocial}</p>}
+                    {errors.nome_instituicao && <p className="text-red-500 text-sm">{errors.nome_instituicao}</p>}
                 </div>
 
                 <div>
-                    <label className="block font-semibold">Nome Fantasia</label>
+                    <label htmlFor="cnpj_cpf" className="block font-semibold">CNPJ</label>
                     <input
+                        id="cnpj_cpf"
+                        name="cnpj_cpf"
                         type="text"
-                        value={data.nomeFantasia}
-                        onChange={e => setData('nomeFantasia', e.target.value)}
+                        value={data.cnpj_cpf}
+                        onChange={e => setData('cnpj_cpf', e.target.value)}
                         className="w-full border p-2 rounded"
                     />
-                    {errors.nomeFantasia && <p className="text-red-500 text-sm">{errors.nomeFantasia}</p>}
+                    {errors.cnpj_cpf && <p className="text-red-500 text-sm">{errors.cnpj_cpf}</p>}
                 </div>
 
                 <div>
-                    <label className="block font-semibold">CNPJ</label>
+                    <label htmlFor="ie_rg" className="block font-semibold">Inscrição Estadual</label>
                     <input
+                        id="ie_rg"
+                        name="ie_rg"
                         type="text"
-                        value={data.cnpj}
-                        onChange={e => setData('cnpj', e.target.value)}
+                        value={data.ie_rg}
+                        onChange={e => setData('ie_rg', e.target.value)}
                         className="w-full border p-2 rounded"
                     />
-                    {errors.cnpj && <p className="text-red-500 text-sm">{errors.cnpj}</p>}
+                    {errors.ie_rg && <p className="text-red-500 text-sm">{errors.ie_rg}</p>}
                 </div>
 
                 <div>
-                    <label className="block font-semibold">Inscrição Estadual</label>
+                    <label htmlFor="data_abertura" className="block font-semibold">Data de Abertura</label>
                     <input
-                        type="text"
-                        value={data.inscricaoEstadual}
-                        onChange={e => setData('inscricaoEstadual', e.target.value)}
-                        className="w-full border p-2 rounded"
-                    />
-                    {errors.inscricaoEstadual && <p className="text-red-500 text-sm">{errors.inscricaoEstadual}</p>}
-                </div>
-
-                <div>
-                    <label className="block font-semibold">Data de Abertura</label>
-                    <input
+                        id="data_abertura"
+                        name="data_abertura"
                         type="date"
-                        value={data.dataAbertura}
-                        onChange={e => setData('dataAbertura', e.target.value)}
+                        value={data.data_abertura}
+                        onChange={e => setData('data_abertura', e.target.value)}
                         className="w-full border p-2 rounded"
                     />
-                    {errors.dataAbertura && <p className="text-red-500 text-sm">{errors.dataAbertura}</p>}
+                    {errors.data_abertura && <p className="text-red-500 text-sm">{errors.data_abertura}</p>}
+                </div>
+
+                <div>
+                    <label htmlFor="observacoes" className="block font-semibold">Observações</label>
+                    <textarea
+                        id="observacoes"
+                        name="observacoes"
+                        rows={3}
+                        value={data.observacoes}
+                        onChange={e => setData('observacoes', e.target.value)}
+                        className="w-full border p-2 rounded"
+                    />
+                    {errors.observacoes && <p className="text-red-500 text-sm">{errors.observacoes}</p>}
+                </div>
+
+                <div>
+                    <label htmlFor="doacao_preferencia" className="block font-semibold">Preferência de Doação</label>
+                    <input
+                        id="doacao_preferencia"
+                        name="doacao_preferencia"
+                        type="text"
+                        value={data.doacao_preferencia}
+                        onChange={e => setData('doacao_preferencia', e.target.value)}
+                        className="w-full border p-2 rounded"
+                    />
+                    {errors.doacao_preferencia && <p className="text-red-500 text-sm">{errors.doacao_preferencia}</p>}
                 </div>
 
                 <div className="flex gap-4 mt-6">

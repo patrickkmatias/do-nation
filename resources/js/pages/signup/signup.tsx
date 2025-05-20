@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
@@ -8,50 +9,55 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
-type SignupPageProps = {
-  userType?: string;
-};
-
-export default function Signup({}: SignupPageProps) {
-  const [progress, setProgress] = useState(0);
-
-  const [step, setStep] = useState(1);
-
-  const [fileProfile, setFileProfile] = useState<File | null>(null);
-  const [fileDocuments, setFileDocuments] = useState<File | null>(null);
-  const [description, setDescription] = useState('');
-
+export default function Signup() {
+  // Form Inertia para todos os campos
   const { data, setData, post, processing, errors, reset } = useForm({
     email: '',
     password: '',
     password_confirmation: '',
-    razaoSocial: '',
-    nomeFantasia: '',
-    cnpj: '',
-    inscricaoEstadual: '',
-    dataAbertura: '',
+    is_receptor: true,
+    nome_instituicao: '',
+    logradouro: '',
+    cep: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    cnpj_cpf: '',
+    ie_rg: '',
+    observacoes: '',
+    doacao_preferencia: '',
+    data_abertura: '',
+    file_profile: null as File | null,
+    file_documents: null as File | null,
+    description: '',
   });
 
-  const handleChangeStep1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(1);
 
-    let newValue = value;
-    if (name === 'cnpj') {
-      newValue = value
-        .replace(/\D/g, '')
-        .replace(/^(\d{2})(\d)/, '$1.$2')
-        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-        .replace(/\.(\d{3})(\d)/, '.$1/$2')
-        .replace(/(\d{4})(\d)/, '$1-$2')
-        .slice(0, 18);
+  // Handle texto e máscara
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+
+    if (type === 'file') {
+      const fileInput = e as React.ChangeEvent<HTMLInputElement>;
+      setData(name as any, fileInput.target.files?.[0] ?? null);
+    } else {
+      let newValue = value;
+      if (name === 'cnpj_cpf') {
+        newValue = value
+          .replace(/\D/g, '')
+          .replace(/^(\d{2})(\d)/, '$1.$2')
+          .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+          .replace(/\.(\d{3})(\d)/, '.$1/$2')
+          .replace(/(\d{4})(\d)/, '$1-$2')
+          .slice(0, 18);
+      }
+      setData(name as any, newValue);
     }
-
-    setData(name as keyof typeof data, newValue);
   };
 
-  const cancelRegister = () => {
-    history.back();
-  }
+  const cancelRegister = () => history.back();
 
   const analyzeCNPJ = () => {
     setProgress(0);
@@ -67,262 +73,152 @@ export default function Signup({}: SignupPageProps) {
     }, 50);
   };
 
-  const handleFileProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files ? e.target.files[0] : null;
-    setFileProfile(selectedFile);
-  };
-
-  const handleFileDocumentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files ? e.target.files[0] : null;
-    setFileDocuments(selectedFile);
-  };
-
-  const submit: React.FormEventHandler = (e) => {
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    setData('razaoSocial', data.razaoSocial);
-    setData('nomeFantasia', data.nomeFantasia);
-    setData('cnpj', data.cnpj);
-    setData('inscricaoEstadual', data.inscricaoEstadual);
-    setData('dataAbertura', data.dataAbertura);
-
+    console.log('📤 enviando dados:', data);
     post(route('register'), {
+      forceFormData: true,  
       onFinish: () => reset('password', 'password_confirmation'),
     });
-    alert('Cadastro efetuado com sucesso!');
   };
 
   return (
-    <AuthLayout title="Cadastro de Entidade Social" description="Preencha os dados abaixo para criar sua conta">
+    <AuthLayout
+      title="Cadastro de Entidade Social"
+      description="Preencha os dados abaixo para criar sua conta"
+    >
       <Head title="Cadastro" />
 
       <div className="max-w-xl mx-auto mt-10 space-y-6">
-        {step === 1 && (
+        {step === 1 ? (
           <>
-            <h1 className="text-2xl font-bold mb-6">Cadastro - Dados Básicos</h1>
-
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl">
+            <h1 className="text-2xl font-bold mb-6">Dados Básicos</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col">
-                <label htmlFor="razaoSocial" className="mb-1 font-semibold">Razão Social</label>
-                <input
-                  id="razaoSocial"
-                  name="razaoSocial"
-                  value={data.razaoSocial}
-                  onChange={handleChangeStep1}
-                  className="border rounded p-2 w-full"
+                <Label htmlFor="nome_instituicao">Razão Social</Label>
+                <Input
+                  id="nome_instituicao"
+                  name="nome_instituicao"
+                  value={data.nome_instituicao}
+                  onChange={handleChange}
                 />
+                <InputError message={errors.nome_instituicao} />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="nomeFantasia" className="mb-1 font-semibold">Nome Fantasia</label>
-                <input
-                  id="nomeFantasia"
-                  name="nomeFantasia"
-                  value={data.nomeFantasia}
-                  onChange={handleChangeStep1}
-                  className="border rounded p-2 w-full"
+                <Label htmlFor="observacoes">Descrição Rápida</Label>
+                <Input
+                  id="observacoes"
+                  name="observacoes"
+                  value={data.observacoes}
+                  onChange={handleChange}
                 />
+                <InputError message={errors.observacoes} />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="cnpj" className="mb-1 font-semibold">CNPJ</label>
-                <input
-                  id="cnpj"
-                  name="cnpj"
-                  value={data.cnpj}
-                  onChange={handleChangeStep1}
-                  className="border rounded p-2 w-full"
+                <Label htmlFor="cnpj_cpf">CNPJ</Label>
+                <Input
+                  id="cnpj_cpf"
+                  name="cnpj_cpf"
+                  value={data.cnpj_cpf}
+                  onChange={handleChange}
                 />
+                <InputError message={errors.cnpj_cpf} />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="inscricaoEstadual" className="mb-1 font-semibold">Inscrição Estadual</label>
-                <input
-                  id="inscricaoEstadual"
-                  name="inscricaoEstadual"
-                  value={data.inscricaoEstadual}
-                  onChange={handleChangeStep1}
-                  className="border rounded p-2 w-full"
+                <Label htmlFor="ie_rg">Inscrição Estadual</Label>
+                <Input
+                  id="ie_rg"
+                  name="ie_rg"
+                  value={data.ie_rg}
+                  onChange={handleChange}
                 />
+                <InputError message={errors.ie_rg} />
               </div>
 
               <div className="flex flex-col md:col-span-2">
-                <label htmlFor="dataAbertura" className="mb-1 font-semibold">Data de Abertura</label>
-                <input
-                  id="dataAbertura"
+                <Label htmlFor="data_abertura">Data de Abertura</Label>
+                <Input
+                  id="data_abertura"
+                  name="data_abertura"
                   type="date"
-                  name="dataAbertura"
-                  value={data.dataAbertura}
-                  onChange={handleChangeStep1}
-                  className="border rounded p-2 w-full"
+                  value={data.data_abertura}
+                  onChange={handleChange}
                 />
+                <InputError message={errors.data_abertura} />
               </div>
 
-               <div className="flex flex-col justify-start">
-                <button
-                  type="button"
-                  onClick={cancelRegister}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                >
-                  Voltar
-                </button>
-              </div>
-
-              <div className="flex flex-col justify-start">
-                <button
-                  type="button"
-                  onClick={analyzeCNPJ}
-                  className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition"
-                >
-                  Prosseguir
-                </button>
+              <div className="md:col-span-2 flex gap-4">
+                <Button type="button" onClick={cancelRegister}>Voltar</Button>
+                <Button type="button" onClick={analyzeCNPJ}>Prosseguir</Button>
               </div>
 
               {progress > 0 && (
-                <div className="md:col-span-2 w-full h-4 bg-gray-200 rounded mt-2">
-                  <div
-                    className="h-full bg-green-500 transition-all duration-200 ease-in-out"
-                    style={{ width: `${progress}%` }}
-                  />
+                <div className="md:col-span-2 w-full h-4 bg-gray-200 rounded">
+                  <div className="h-full bg-green-500" style={{ width: `${progress}%` }} />
                 </div>
               )}
-            </form>
+            </div>
           </>
-        )}
-
-        {step === 2 && (
+        ) : (
           <>
-            <h1 className="text-2xl font-bold mb-6">Cadastro - Informações Adicionais e Conta</h1>
-
-            <form onSubmit={submit} className="space-y-8 max-w-xl grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl" encType="multipart/form-data">
-
-              <div className="mb-6 col-span-2">
-                <h3 className="font-semibold mb-2">Defina uma foto de perfil</h3>
-                <label
-                  htmlFor="file-profile"
-                  className="inline-block cursor-pointer text-blue-600 underline hover:text-blue-800"
-                >
-                  Escolher Arquivo
-                </label>
-                <input
-                  type="file"
-                  id="file-profile"
-                  onChange={handleFileProfileChange}
-                  className="hidden"
-                />
-                {fileProfile && <p className="mt-1 text-gray-700">Arquivo selecionado: {fileProfile.name}</p>}
+            <h1 className="text-2xl font-bold mb-6">Informações Adicionais e Conta</h1>
+            <form onSubmit={submit} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-2">
+                <Label htmlFor="file_profile">Foto de Perfil</Label>
+                <Input id="file_profile" name="file_profile" type="file" onChange={handleChange} />
+                <InputError message={errors.file_profile} />
               </div>
 
-              <div className="mb-6 col-span-2">
-                <h3 className="font-semibold mb-2">Insira documentos que comprovem a existência e seriedade da entidade social</h3>
-                <label
-                  htmlFor="file-documents"
-                  className="inline-block cursor-pointer text-blue-600 underline hover:text-blue-800"
-                >
-                  Escolher Arquivo
-                </label>
-                <input
-                  type="file"
-                  id="file-documents"
-                  onChange={handleFileDocumentsChange}
-                  className="hidden"
-                />
-                {fileDocuments && <p className="mt-1 text-gray-700">Arquivo selecionado: {fileDocuments.name}</p>}
+              <div className="col-span-2">
+                <Label htmlFor="file_documents">Documentos</Label>
+                <Input id="file_documents" name="file_documents" type="file" onChange={handleChange} />
+                <InputError message={errors.file_documents} />
               </div>
 
-              <div className="mb-6 col-span-2">
-                <h3 className="font-semibold mb-2">Faça uma breve descrição sobre a instituição</h3>
+              <div className="col-span-2">
+                <Label htmlFor="description">Descrição Completa</Label>
                 <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={5}
-                  className="w-full border border-gray-300 rounded p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  id="description"
+                  name="description"
+                  rows={4}
+                  value={data.description}
+                  onChange={handleChange}
+                  className="w-full border rounded p-2"
                 />
+                <InputError message={errors.description} />
               </div>
 
-              <div className="grid grid-cols-1 col-span-2 md:grid-cols-1 gap-6">
-                <div className="flex flex-col">
-                  <Label htmlFor="email" className="mb-1">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    required
-                    tabIndex={2}
-                    autoComplete="email"
-                    value={data.email}
-                    onChange={(e) => setData('email', e.target.value)}
-                    disabled={processing}
-                    placeholder="email@exemplo.com"
-                  />
-                  <InputError message={errors.email} />
-                </div>
-
-                <div className='flex flex-row gap-6'>
-                  <div className="flex flex-col w-1/2">
-                    <Label htmlFor="password" className="mb-1">Senha</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      required
-                      tabIndex={3}
-                      autoComplete="new-password"
-                      value={data.password}
-                      onChange={(e) => setData('password', e.target.value)}
-                      disabled={processing}
-                      placeholder="Senha"
-                    />
-                    <InputError message={errors.password} />
-                  </div>
-
-                  <div className="flex flex-col w-1/2">
-                    <Label htmlFor="password_confirmation" className="mb-1">Confirme a senha</Label>
-                    <Input
-                      id="password_confirmation"
-                      type="password"
-                      required
-                      tabIndex={4}
-                      autoComplete="new-password"
-                      value={data.password_confirmation}
-                      onChange={(e) => setData('password_confirmation', e.target.value)}
-                      disabled={processing}
-                      placeholder="Confirme a senha"
-                    />
-                    <InputError message={errors.password_confirmation} />
-                  </div>
-                </div>
-                
+              <div className="col-span-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" type="email" value={data.email} onChange={handleChange} disabled={processing} />
+                <InputError message={errors.email} />
               </div>
 
-              <div className="flex flex-row col-span-2 gap-4">
-                <div className="flex flex-col w-full">
-                  <Button
-                    type="button"
-                    onClick={cancelRegister}
-                    className="mt-6 w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                  >
-                    Cancelar Cadastro
-                  </Button>
+              <div className="col-span-2 flex gap-4">
+                <div className="flex-1">
+                  <Label htmlFor="password">Senha</Label>
+                  <Input id="password" name="password" type="password" value={data.password} onChange={handleChange} disabled={processing} />
+                  <InputError message={errors.password} />
                 </div>
-                
-                <div className="flex flex-col w-full">
-                  
-                  <Button
-                    type="submit"
-                    className="mt-6 w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-                    tabIndex={5}
-                    disabled={processing}
-                  >
-                    {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2 inline-block" />}
-                    Cadastrar
-                  </Button>
+                <div className="flex-1">
+                  <Label htmlFor="password_confirmation">Confirme Senha</Label>
+                  <Input id="password_confirmation" name="password_confirmation" type="password" value={data.password_confirmation} onChange={handleChange} disabled={processing} />
+                  <InputError message={errors.password_confirmation} />
                 </div>
               </div>
 
-              
+              <div className="col-span-2 flex gap-4">
+                <Button type="button" onClick={cancelRegister}>Cancelar</Button>
+                <Button type="submit" disabled={processing}>
+                  {processing && <LoaderCircle className="animate-spin mr-2" />} Cadastrar
+                </Button>
+              </div>
             </form>
           </>
         )}
-
       </div>
     </AuthLayout>
   );

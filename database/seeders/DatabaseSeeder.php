@@ -18,5 +18,9 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'email' => 'test@example.com',
         ]);
+
+        $this->call([
+            ReceptorSeeder::class,
+        ]);
     }
 }
