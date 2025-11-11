@@ -47,5 +47,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Route::get('/sobre-nos', function () {
+    return Inertia::render('aboutUs/aboutUs');
+})->name('sobre-nos');
+
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

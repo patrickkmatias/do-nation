@@ -1,0 +1,15 @@
+html, body {
+    height: 100%; 
+}
+
+body {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(circle at 90% 10%, #e3d8ff 15%, transparent 40%),
+    radial-gradient(circle at 10% 90%, #dbe6ff 15%, transparent 40%);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
