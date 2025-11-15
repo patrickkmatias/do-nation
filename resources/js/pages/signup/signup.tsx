@@ -82,7 +82,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <AuthLayout
         title="Cadastro de Entidade Social"
         description="Preencha os dados abaixo para criar sua conta"

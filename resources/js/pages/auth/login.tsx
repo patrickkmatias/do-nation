@@ -133,6 +133,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             </TextLink>
                         </div>
                     </form>
+                    <br />
+                    <div className="text-center text-sm text-black">
+                        Quer saber mais sobre a DoNation?{' '}
+                        <TextLink className="text-black" href={route('sobre-nos')} tabIndex={5}>
+                            Clique aqui 
+                        </TextLink>!
+                    </div>
 
                     {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
                 </div>
