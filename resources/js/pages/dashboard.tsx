@@ -1,7 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import '../../css/background.css';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -11,6 +13,60 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard() {
+  
+  useEffect(() => {
+
+    document.documentElement.classList.remove('dark');
+    document.documentElement.style.colorScheme = 'light';
+    document.body.classList.remove('dark');
+    
+    setTimeout(() => {
+      const allElements = document.querySelectorAll('*');
+      
+      const elementsWithBackground: any[] = [];
+      
+      allElements.forEach(el => {
+        const style = window.getComputedStyle(el);
+        const bgColor = style.backgroundColor;
+        
+        if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
+          const rect = el.getBoundingClientRect();
+
+          if (rect.width > 50 && rect.height > 50) {
+            elementsWithBackground.push({
+              element: el,
+              tag: el.tagName,
+              classes: el.className,
+              backgroundColor: bgColor,
+              size: `${rect.width}x${rect.height}`,
+              html: el.outerHTML.substring(0, 150)
+            });
+          }
+        }
+      });
+
+      elementsWithBackground.forEach(item => {
+        
+        (item.element as HTMLElement).style.backgroundColor = 'transparent';
+        (item.element as HTMLElement).style.background = 'transparent';
+      });
+
+      const commonSelectors = [
+        'body', '#app', '.min-h-screen', 'main', 'section', 'div',
+        '[class*="layout"]', '[class*="Layout"]', '.bg-white', '.bg-gray-50', '.bg-gray-100'
+      ];
+      
+      commonSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+          (el as HTMLElement).style.backgroundColor = 'transparent';
+          (el as HTMLElement).style.background = 'transparent';
+        });
+      });
+
+    }, 100);
+
+  }, []);
+
   // Consumir o prop `user` que o controller retorna
   const { user } = usePage().props as unknown as {
     user: {
