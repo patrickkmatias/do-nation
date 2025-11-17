@@ -29,6 +29,34 @@ Após realizar o login:
 
 - Encerrar a sessão pelo botão "Sair".
 
+Seguindo com a proposta da Primeira e Segunda Etapa do Projeto Integrador do 2º Semestre de 2025, escolhemos como prova de conceito o caminho do Doadoar e do Marketing na plataforma. Segue abaixo uma descrição da jornada do usuário Doador no Do Nation:
+
+1 - O Doador inicia seu acesso à plataforma por meio de um cadastro.
+
+2 - Após o envio do formulário, é realizada uma análise automática do CPF/CNPJ.
+
+3 - Com a aprovação, o doador pode:
+
+- Pesquisar Entidades próximas ou com um foco específico de atividade para realizar a doação.
+
+Após realizar o login:
+
+4 - É redirecionada para um dashboard contendo:
+
+- Rank de doações.
+
+- Um grid com anuncios de entidades para agendar visitas ou realizar a doação.
+
+- Também estará disponível uma seção para um informe sobre a doação através do Imposto de Renda.
+
+5 - Durante o uso, o doador pode:
+
+- Retornar à página inicial;
+
+- Encerrar a sessão pelo botão "Sair".
+
+Com base nas informações disponíveis no site, nos dados sobre a quantidade de usuários e nos benefícios oferecidos pelo sistema, a equipe de Marketing desenvolve conteúdos estratégicos e realiza ações de tráfego para promover o site e ampliar sua visibilidade.
+
 # Participantes
 - ALICE ABREU RUBIM DIAS
 - DANIEL BENELLI MOURO
