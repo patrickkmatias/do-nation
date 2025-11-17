@@ -81,4 +81,11 @@ touch database/database.sqlite
 ```sh
 php artisan migrate
 ```
+## Referências Bibliográficas
+
+SILVA, Maurício Samy. *HTML5 e CSS3: domine a web do futuro*. 2. ed. Rio de Janeiro: Alta Books, 2020.
+
+FOWLER, Martin. *Patterns of Enterprise Application Architecture*. Boston: Addison-Wesley, 2002.
+
+GOTTFRIED, Atena; SOUZA, Gabriel. *UX Design: técnicas e práticas para criar experiências incríveis*. São Paulo: Casa do Código, 2019.
 
